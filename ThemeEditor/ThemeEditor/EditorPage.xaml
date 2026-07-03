@@ -41,6 +41,7 @@
             </controls:Segmented>
             <CheckBox IsChecked="{x:Bind ViewModel.EnableInterlockColors.Value, Mode=TwoWay}">Interlock Colors</CheckBox>
             <Button Command="{x:Bind ViewModel.ExchangeColorCommand}">Exchange</Button>
+            <Button Command="{x:Bind ViewModel.StockColorCommand}">Stock</Button>
         </StackPanel>
         <Grid Grid.Row="1" Visibility="{x:Bind ViewModel.IsThemeAvailable.Value, Mode=OneWay}">
             <Grid.ColumnDefinitions>

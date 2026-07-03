@@ -6,8 +6,33 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static ThemeEditor.AndroidColorTheme;
 
 namespace ThemeEditor;
+
+public interface ICommonTheme {
+    ColorPair Base { get; }
+    ColorPair Container { get; }
+    ColorPair Fixed { get; }
+    ColorPair FixedDim { get; }
+}
+public interface IPrimaryTheme : ICommonTheme {
+    ColorPair Inverse { get; }
+}
+
+public class ColorPair {
+    public ReactiveProperty<NamedColor> Background { get; }
+    public ReactiveProperty<NamedColor> Foreground { get; }
+    public ColorPair(ReactiveProperty<NamedColor> background, ReactiveProperty<NamedColor> foreground) {
+        Background = background;
+        Foreground = foreground;
+    }
+
+    public bool IsEmpty => Background.Value.IsEmpty && Foreground.Value.IsEmpty;
+    public ReadOnlyReactiveProperty<bool> IsEmptyObservable => Background.CombineLatest(Foreground, (b, f) => b.IsEmpty && f.IsEmpty).ToReadOnlyReactiveProperty();
+}
+
+
 
 public class AndroidColorTheme {
     // primary
@@ -58,18 +83,6 @@ public class AndroidColorTheme {
     private ReactiveProperty<NamedColor> onSurface { get; } = new(NamedColor.Empty);
     private ReactiveProperty<NamedColor> onSurfaceVariant { get; } = new(NamedColor.Empty);
 
-    public class ColorPair {
-        public ReactiveProperty<NamedColor> Background { get; }
-        public ReactiveProperty<NamedColor> Foreground { get; }
-        public ColorPair(ReactiveProperty<NamedColor> background, ReactiveProperty<NamedColor> foreground) {
-            Background = background;
-            Foreground = foreground;
-        }
-
-        public bool IsEmpty => Background.Value.IsEmpty && Foreground.Value.IsEmpty;
-        public ReadOnlyReactiveProperty<bool> IsEmptyObservable => Background.CombineLatest(Foreground, (b, f) => b.IsEmpty && f.IsEmpty).ToReadOnlyReactiveProperty();
-    }
-
     //public abstract class Common {
     //    public ColorPair Base { get; set; }
     //    public ColorPair Container { get; set; }
@@ -83,19 +96,13 @@ public class AndroidColorTheme {
     //    }
     //}
 
-    public interface ICommonTheme {
-        ColorPair Base { get; }
-        ColorPair Container { get; }
-        ColorPair Fixed { get; }
-        ColorPair FixedDim { get; }
-    }
-
-    public class PrimaryTheme : ICommonTheme {
+    public class PrimaryTheme : IPrimaryTheme {
         public ColorPair Base { get; }
         public ColorPair Container { get; }
         public ColorPair Fixed { get; }
         public ColorPair FixedDim { get; }
         public ColorPair Inverse { get; }
+
         public PrimaryTheme(AndroidColorTheme p) { 
             Base = new ColorPair(p.primary, p.onPrimary);
             Container = new ColorPair(p.primaryContainer, p.onPrimaryContainer);
@@ -275,6 +282,15 @@ public class AndroidColorTheme {
             default:
                 throw new InvalidEnumArgumentException();
         }
+    }
+
+    public ICommonTheme CommonThemeOf(CommonThemeType type) {
+        return type switch {
+            CommonThemeType.Primary => Primary,
+            CommonThemeType.Secondary => Secondary,
+            CommonThemeType.Tertiary => Tertiary,
+            _ => throw new InvalidEnumArgumentException(),
+        };
     }
 
     private void ExchangeCommonTheme(ICommonTheme t1, ICommonTheme t2) {

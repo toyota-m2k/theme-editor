@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="ThemeEditor.StockedColorCellView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ThemeEditor"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    HorizontalAlignment="Stretch">
+
+    <Grid x:Name="RootGrid" HorizontalAlignment="Stretch" MinHeight="40" Padding="6,4">
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+            <TextBlock x:Name="BackgroundText" FontSize="12" HorizontalAlignment="Left"/>
+            <TextBlock x:Name="ForegroundText" FontSize="11" HorizontalAlignment="Right"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

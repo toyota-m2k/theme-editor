@@ -19,6 +19,12 @@ public enum ExchangeColorTarget {
     Secondary_Tertiary,
 }
 
+public enum CommonThemeType {
+    Primary,
+    Secondary,
+    Tertiary,
+}
+
 public class AndroidContrastColorTheme {
     private AndroidColors Colors;
     public AndroidContrastColorTheme(AndroidColors colors) {

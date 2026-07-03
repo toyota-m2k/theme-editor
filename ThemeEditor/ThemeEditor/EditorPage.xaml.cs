@@ -151,6 +151,10 @@ namespace ThemeEditor {
                 if (target == null) return;
                 ViewModel.ThemeSet.Value?.ExchangeColors(target.Value);
             });
+
+            ViewModel.StockColorCommand.Subscribe(() => {
+                ((App)Application.Current).ShowColorWindow(ViewModel);
+            });
         }
 
         public async Task<String?> GetThemeBaseName(String? initial) {

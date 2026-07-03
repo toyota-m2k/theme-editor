@@ -13,6 +13,7 @@ class EditorViewModel {
     public ReactiveCommand SaveFileCommand { get; } = new();
     public ReactiveCommand CopyThemeCommand { get; } = new();
     public ReactiveCommand ExchangeColorCommand { get; } = new();
+    public ReactiveCommand StockColorCommand { get; } = new();
 
     //public ReactiveProperty<AndroidColors?> Colors { get; } = new();
     public ReactiveProperty<AndroidColorThemeSet> ThemeSet { get; } = new();
@@ -24,10 +25,13 @@ class EditorViewModel {
     //public ReactiveProperty<bool> IsThemeAvailable = new(false);
     public ReactiveProperty<bool> EnableInterlockColors { get; } = new(true);
 
+    public ColorStocker Stocker { get; } = new();
+
     public EditorViewModel() {
         Theme = ThemeSet.CombineLatest(DayNight, Contrast, (themeSet, daynight, contrast) => themeSet?.ThemeOf(daynight, contrast)).ToReadOnlyReactiveProperty();
         IsThemeAvailable = Theme.Select(it => it != null).ToReadOnlyReactiveProperty();
         BackgroundColorChanged.Subscribe(HandleInterlockColor);
+        Stocker.Load();
     }
 
     private void HandleInterlockColor(NamedColor newBackgroundColor) {

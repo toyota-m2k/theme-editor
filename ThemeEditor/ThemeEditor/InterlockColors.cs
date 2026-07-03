@@ -37,7 +37,7 @@ internal class InterlockColors {
         target.Value = target.Value.NewColor(color.Color);
     }
 
-    void SetBaseBackgroundColor(NamedColor newColor, AndroidColorTheme.ICommonTheme lightTarget, AndroidColorTheme.ICommonTheme darkTarget) {
+    void SetBaseBackgroundColor(NamedColor newColor, ICommonTheme lightTarget, ICommonTheme darkTarget) {
         ChangeColor(lightTarget.Base.Background, newColor);
         ChangeColor(lightTarget.Container.Foreground, newColor);
         ChangeColor(lightTarget.Fixed.Foreground, newColor);
@@ -49,7 +49,7 @@ internal class InterlockColors {
         ChangeColor(darkTarget.FixedDim.Foreground, newColor);
     }
 
-    void SetContainerBackgroundColor(NamedColor newColor, AndroidColorTheme.ICommonTheme lightTarget, AndroidColorTheme.ICommonTheme darkTarget) {
+    void SetContainerBackgroundColor(NamedColor newColor, ICommonTheme lightTarget, ICommonTheme darkTarget) {
         ChangeColor(lightTarget.Container.Background, newColor);
         ChangeColor(lightTarget.Fixed.Background, newColor);
 
@@ -57,7 +57,7 @@ internal class InterlockColors {
         ChangeColor(darkTarget.Container.Foreground, newColor);
     }
 
-    void SetContainerFixedDimBackgroundColor(NamedColor newColor, AndroidColorTheme.ICommonTheme lightTarget, AndroidColorTheme.ICommonTheme darkTarget) {
+    void SetContainerFixedDimBackgroundColor(NamedColor newColor, ICommonTheme lightTarget, ICommonTheme darkTarget) {
         ChangeColor(lightTarget.FixedDim.Background, newColor);
 
         ChangeColor(darkTarget.Base.Background, newColor);

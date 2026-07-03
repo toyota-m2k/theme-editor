@@ -49,5 +49,18 @@ namespace ThemeEditor
         private Window? m_window;
 
         public MainWindow? Window => m_window as MainWindow;
+
+        private ColorWindow? m_colorWindow;
+
+        internal void ShowColorWindow(EditorViewModel viewModel) {
+            if (m_colorWindow == null) {
+                m_colorWindow = new ColorWindow(viewModel);
+                m_colorWindow.Closed += (_, _) => m_colorWindow = null;
+                m_colorWindow.Activate();
+            }
+            else {
+                m_colorWindow.Activate();
+            }
+        }
     }
 }

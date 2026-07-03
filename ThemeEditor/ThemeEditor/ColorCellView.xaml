@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="ThemeEditor.ColorCellView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ThemeEditor"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    HorizontalAlignment="Stretch"
+    >
+
+    <Grid Background="{x:Bind ColorPair.Value.Background.Value.Brush, Mode=OneWay}" HorizontalAlignment="Stretch" Padding="8">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+            <TextBlock FontSize="18" Text="{x:Bind ColorPair.Value.Background.Value.Name}" Foreground="{x:Bind ColorPair.Value.Foreground.Value.Brush, Mode=OneWay}" HorizontalAlignment="Left" Margin="20,0,0,2"/>
+            <TextBlock FontSize="14" Text="{x:Bind ColorPair.Value.Foreground.Value.Name}" Foreground="{x:Bind ColorPair.Value.Foreground.Value.Brush, Mode=OneWay}" HorizontalAlignment="Right" Margin="0,2,20,0"/>
+        </StackPanel>
+        <Button Grid.Column="1" VerticalAlignment="Center" Background="{x:Bind ColorPair.Value.Foreground.Value.Brush, Mode=OneWay}" Foreground="{x:Bind ColorPair.Value.Background.Value.Brush, Mode=OneWay}" Command="{x:Bind CommandBg}">BG</Button>
+        <Button Grid.Column="2" VerticalAlignment="Center" Background="{x:Bind ColorPair.Value.Foreground.Value.Brush, Mode=OneWay}" Foreground="{x:Bind ColorPair.Value.Background.Value.Brush, Mode=OneWay}" Command="{x:Bind CommandFg}">FG</Button>
+        <ContentDialog x:Name="colorPickerDialog" Title="Select Color" PrimaryButtonText="OK" SecondaryButtonText="Cancel" PrimaryButtonCommand="{x:Bind ColorChanged}">
+            <StackPanel>
+                <ColorPicker x:Name="colorPicker" />
+            </StackPanel>
+        </ContentDialog>
+    </Grid>
+</UserControl>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="ThemeEditor.EditorPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ThemeEditor"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <local:BoolVisibilityConverter x:Key="BoolVisibilityConverter"/>
+        <local:NegBoolVisibilityConverter x:Key="NegBoolVisibilityConverter"/>
+        <local:NegBoolConverter x:Key="NegBoolConverter"/>
+        <local:PointStringConverter x:Key="PointStringConverter"/>
+        <local:EnumToIntConverter x:Key="EnumToIntConverter"/>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Spacing="10">
+            <Button Command="{x:Bind ViewModel.OpenFileCommand}">Open File</Button>
+            <Button Command="{x:Bind ViewModel.SaveFileCommand}">Save File</Button>
+            <controls:Segmented
+                SelectedIndex="{x:Bind ViewModel.DayNight.Value, Mode=TwoWay, Converter={StaticResource EnumToIntConverter}}"
+                SelectionMode="Single">
+                <controls:SegmentedItem Content="Light"/>
+                <controls:SegmentedItem Content="Dark"/>
+            </controls:Segmented>
+            <Button Command="{x:Bind ViewModel.CopyThemeCommand}">Copy</Button>
+            <controls:Segmented
+                SelectedIndex="{x:Bind ViewModel.Contrast.Value, Mode=TwoWay, Converter={StaticResource EnumToIntConverter}}"
+                SelectionMode="Single">
+                <controls:SegmentedItem Content="Normal"/>
+                <controls:SegmentedItem Content="Medium"/>
+                <controls:SegmentedItem Content="High"/>
+            </controls:Segmented>
+            <CheckBox IsChecked="{x:Bind ViewModel.EnableInterlockColors.Value, Mode=TwoWay}">Interlock Colors</CheckBox>
+            <Button Command="{x:Bind ViewModel.ExchangeColorCommand}">Exchange</Button>
+        </StackPanel>
+        <Grid Grid.Row="1" Visibility="{x:Bind ViewModel.IsThemeAvailable.Value, Mode=OneWay}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <local:ColorCellView Grid.Row="0" Grid.Column="0" Colors="{x:Bind ViewModel.Theme.Value.Primary.Base, Mode=OneWay}"/>
+            <local:ColorCellView Grid.Row="1" Grid.Column="0" Colors="{x:Bind ViewModel.Theme.Value.Primary.Container, Mode=OneWay}"/>
+            <local:ColorCellView Grid.Row="2" Grid.Column="0" Colors="{x:Bind ViewModel.Theme.Value.Primary.Fixed, Mode=OneWay}"/>
+            <local:ColorCellView Grid.Row="3" Grid.Column="0" Colors="{x:Bind ViewModel.Theme.Value.Primary.FixedDim, Mode=OneWay}"/>
+            <local:ColorCellView Grid.Row="4" Grid.Column="0" Colors="{x:Bind ViewModel.Theme.Value.Primary.Inverse, Mode=OneWay}"/>
+
+            <local:ColorCellView Grid.Row="0" Grid.Column="1" Colors="{x:Bind ViewModel.Theme.Value.Secondary.Base, Mode=OneWay}"/>
+            <local:ColorCellView Grid.Row="1" Grid.Column="1" Colors="{x:Bind ViewModel.Theme.Value.Secondary.Container, Mode=OneWay}"/>
+            <local:ColorCellView Grid.Row="2" Grid.Column="1" Colors="{x:Bind ViewModel.Theme.Value.Secondary.Fixed, Mode=OneWay}"/>
+            <local:ColorCellView Grid.Row="3" Grid.Column="1" Colors="{x:Bind ViewModel.Theme.Value.Secondary.FixedDim, Mode=OneWay}"/>
+
+            <local:ColorCellView Grid.Row="0" Grid.Column="2" Colors="{x:Bind ViewModel.Theme.Value.Tertiary.Base, Mode=OneWay}"/>
+            <local:ColorCellView Grid.Row="1" Grid.Column="2" Colors="{x:Bind ViewModel.Theme.Value.Tertiary.Container, Mode=OneWay}"/>
+            <local:ColorCellView Grid.Row="2" Grid.Column="2" Colors="{x:Bind ViewModel.Theme.Value.Tertiary.Fixed, Mode=OneWay}"/>
+            <local:ColorCellView Grid.Row="3" Grid.Column="2" Colors="{x:Bind ViewModel.Theme.Value.Tertiary.FixedDim, Mode=OneWay}"/>
+
+            <Grid Grid.Row="0" Grid.Column="3" Grid.RowSpan="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <local:ColorCellView Grid.Row="0" Colors="{x:Bind ViewModel.Theme.Value.Surface.Base, Mode=OneWay}"/>
+                <local:ColorCellView Grid.Row="1" Colors="{x:Bind ViewModel.Theme.Value.Surface.Variant, Mode=OneWay}"/>
+                <local:ColorCellView Grid.Row="2" Colors="{x:Bind ViewModel.Theme.Value.Surface.Inverse , Mode=OneWay}"/>
+                <local:ColorCellView Grid.Row="3" Colors="{x:Bind ViewModel.Theme.Value.Surface.Dim, Mode=OneWay}"/>
+                <local:ColorCellView Grid.Row="4" Colors="{x:Bind ViewModel.Theme.Value.Surface.Bright, Mode=OneWay}"/>
+                <local:ColorCellView Grid.Row="5" Colors="{x:Bind ViewModel.Theme.Value.Surface.ContainerHighest, Mode=OneWay}"/>
+                <local:ColorCellView Grid.Row="6" Colors="{x:Bind ViewModel.Theme.Value.Surface.ContainerHigh, Mode=OneWay}"/>
+                <local:ColorCellView Grid.Row="7" Colors="{x:Bind ViewModel.Theme.Value.Surface.Container, Mode=OneWay}"/>
+                <local:ColorCellView Grid.Row="8" Colors="{x:Bind ViewModel.Theme.Value.Surface.ContainerLow, Mode=OneWay}"/>
+                <local:ColorCellView Grid.Row="9" Colors="{x:Bind ViewModel.Theme.Value.Surface.ContainerLowest, Mode=OneWay}"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

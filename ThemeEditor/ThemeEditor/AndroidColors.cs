@@ -41,6 +41,7 @@ public class NamedColor {
     public Color Color { get; }
     public Windows.UI.Color AsUiColor => Windows.UI.Color.FromArgb(Color.A, Color.R, Color.G, Color.B);
     public Microsoft.UI.Xaml.Media.Brush Brush { get; }
+    public string ColorCode => ColorToHexString(Color);
     public NamedColor(string name, Color color) {
         Name = name;
         Color = color;

@@ -48,13 +48,14 @@
                 SelectionChanged="OnSelectionChanged">
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="local:StockItem">
-                        <StackPanel Orientation="Vertical" Padding="2,6">
-                            <TextBlock Text="{x:Bind Title}" FontSize="14"/>
-                            <StackPanel Orientation="Horizontal" Spacing="10">
-                                <TextBlock Text="{x:Bind Type}" FontSize="11" Opacity="0.7"/>
-                                <TextBlock Text="{x:Bind CreatedAt}" FontSize="11" Opacity="0.7"/>
-                            </StackPanel>
-                        </StackPanel>
+                        <Grid HorizontalAlignment="Stretch" Padding="0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <local:StockedThemeSampleView Grid.Column="0" Theme="{x:Bind ThemeSet.Light.Normal}"/>
+                            <local:StockedThemeSampleView Grid.Column="1" Theme="{x:Bind ThemeSet.Dark.Normal}"/>
+                        </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

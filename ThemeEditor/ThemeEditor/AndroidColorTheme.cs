@@ -106,8 +106,8 @@ public class AndroidColorTheme {
         public PrimaryTheme(AndroidColorTheme p) { 
             Base = new ColorPair(p.primary, p.onPrimary);
             Container = new ColorPair(p.primaryContainer, p.onPrimaryContainer);
-            Fixed = new ColorPair(p.primaryFixed, p.onPrimaryFixedVariant);
-            FixedDim = new ColorPair(p.primaryFixedDim, p.onPrimaryFixed);
+            Fixed = new ColorPair(p.primaryFixed, p.onPrimaryFixed);
+            FixedDim = new ColorPair(p.primaryFixedDim, p.onPrimaryFixedVariant);
             Inverse = new ColorPair(p.inversePrimary, p.onPrimaryContainer);
         }
         public bool IsEmpty => Base.IsEmpty || Container.IsEmpty || Fixed.IsEmpty || FixedDim.IsEmpty || Inverse.IsEmpty;
@@ -122,8 +122,8 @@ public class AndroidColorTheme {
         public SecondaryTheme(AndroidColorTheme p) {
             Base = new ColorPair(p.secondary, p.onSecondary);
             Container = new ColorPair(p.secondaryContainer, p.onSecondaryContainer);
-            Fixed = new ColorPair(p.secondaryFixed, p.onSecondaryFixedVariant);
-            FixedDim = new ColorPair(p.secondaryFixedDim, p.onSecondaryFixed);
+            Fixed = new ColorPair(p.secondaryFixed, p.onSecondaryFixed);
+            FixedDim = new ColorPair(p.secondaryFixedDim, p.onSecondaryFixedVariant);
         }
 
         public bool IsEmpty => Base.IsEmpty || Container.IsEmpty || Fixed.IsEmpty || FixedDim.IsEmpty;
@@ -138,8 +138,8 @@ public class AndroidColorTheme {
         public TertiaryTheme(AndroidColorTheme p) {
             Base = new ColorPair(p.tertiary, p.onTertiary);
             Container = new ColorPair(p.tertiaryContainer, p.onTertiaryContainer);
-            Fixed = new ColorPair(p.tertiaryFixed, p.onTertiaryFixedVariant);
-            FixedDim = new ColorPair(p.tertiaryFixedDim, p.onTertiaryFixed);
+            Fixed = new ColorPair(p.tertiaryFixed, p.onTertiaryFixed);
+            FixedDim = new ColorPair(p.tertiaryFixedDim, p.onTertiaryFixedVariant);
         }
 
         public bool IsEmpty => Base.Background.Value.IsEmpty && Base.Foreground.Value.IsEmpty && Container.Background.Value.IsEmpty && Container.Foreground.Value.IsEmpty && Fixed.Background.Value.IsEmpty && Fixed.Foreground.Value.IsEmpty && FixedDim.Background.Value.IsEmpty && FixedDim.Foreground.Value.IsEmpty;

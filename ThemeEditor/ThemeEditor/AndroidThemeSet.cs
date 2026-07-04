@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Text;
 using Windows.Storage;
 using static System.Windows.Forms.DataFormats;
@@ -94,6 +96,30 @@ public class AndroidContrastColorTheme {
         MediumTheme.ExchangeColors(target);
         HighTheme.ExchangeColors(target);
     }
+
+    /// <summary>
+    /// Regenerates every Medium/High role from the (possibly edited) Normal theme
+    /// by re-applying the original imported theme's Normal->Medium / Normal->High
+    /// color difference. Roles absent or empty in the original Medium/High palette
+    /// are left untouched.
+    /// </summary>
+    public void GenerateContrastFromNormal() {
+        GenerateContrast(Colors.Medium, MediumTheme);
+        GenerateContrast(Colors.High, HighTheme);
+    }
+
+    private void GenerateContrast(List<NamedColor> originalTarget, AndroidColorTheme targetTheme) {
+        foreach (var origNormal in Colors.Normal) {
+            if (origNormal.IsEmpty) continue;
+            var origTarget = originalTarget.FirstOrDefault(it => it.Name == origNormal.Name);
+            if (origTarget == null || origTarget.IsEmpty) continue;
+            var currentNormal = NormalTheme.GetColorByName(origNormal.Name);
+            if (currentNormal == null || currentNormal.IsEmpty) continue;
+
+            var generated = ColorSpace.Transfer(currentNormal.Color, origNormal.Color, origTarget.Color);
+            targetTheme.SetColorByName(origNormal.Name, new NamedColor(origNormal.Name, generated));
+        }
+    }
 }
 
 public enum DayNightMode {
@@ -121,6 +147,11 @@ public class AndroidColorThemeSet {
     public void ExchangeColors(ExchangeColorTarget target) {
         Light.ExchangeColors(target);
         Dark.ExchangeColors(target);
+    }
+
+    public void GenerateContrastFromNormal() {
+        Light.GenerateContrastFromNormal();
+        Dark.GenerateContrastFromNormal();
     }
 
     public class ThemeBuilder {

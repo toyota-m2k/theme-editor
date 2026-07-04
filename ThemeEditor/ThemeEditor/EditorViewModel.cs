@@ -14,6 +14,7 @@ class EditorViewModel {
     public ReactiveCommand CopyThemeCommand { get; } = new();
     public ReactiveCommand ExchangeColorCommand { get; } = new();
     public ReactiveCommand StockColorCommand { get; } = new();
+    public ReactiveCommand GenerateContrastCommand { get; } = new();
 
     //public ReactiveProperty<AndroidColors?> Colors { get; } = new();
     public ReactiveProperty<AndroidColorThemeSet> ThemeSet { get; } = new();
@@ -31,6 +32,7 @@ class EditorViewModel {
         Theme = ThemeSet.CombineLatest(DayNight, Contrast, (themeSet, daynight, contrast) => themeSet?.ThemeOf(daynight, contrast)).ToReadOnlyReactiveProperty();
         IsThemeAvailable = Theme.Select(it => it != null).ToReadOnlyReactiveProperty();
         BackgroundColorChanged.Subscribe(HandleInterlockColor);
+        GenerateContrastCommand.Subscribe(() => ThemeSet.Value?.GenerateContrastFromNormal());
         Stocker.Load();
     }
 

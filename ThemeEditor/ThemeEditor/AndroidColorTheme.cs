@@ -268,6 +268,50 @@ public class AndroidColorTheme {
         }
     }
 
+    public void SetColorByName(string name, NamedColor color) {
+        switch (name) {
+            case "primary": primary.Value = color; break;
+            case "primaryContainer": primaryContainer.Value = color; break;
+            case "inversePrimary": inversePrimary.Value = color; break;
+            case "primaryFixed": primaryFixed.Value = color; break;
+            case "primaryFixedDim": primaryFixedDim.Value = color; break;
+            case "onPrimary": onPrimary.Value = color; break;
+            case "onPrimaryContainer": onPrimaryContainer.Value = color; break;
+            case "onPrimaryFixed": onPrimaryFixed.Value = color; break;
+            case "onPrimaryFixedVariant": onPrimaryFixedVariant.Value = color; break;
+            case "secondary": secondary.Value = color; break;
+            case "secondaryContainer": secondaryContainer.Value = color; break;
+            case "secondaryFixed": secondaryFixed.Value = color; break;
+            case "secondaryFixedDim": secondaryFixedDim.Value = color; break;
+            case "onSecondary": onSecondary.Value = color; break;
+            case "onSecondaryContainer": onSecondaryContainer.Value = color; break;
+            case "onSecondaryFixed": onSecondaryFixed.Value = color; break;
+            case "onSecondaryFixedVariant": onSecondaryFixedVariant.Value = color; break;
+            case "tertiary": tertiary.Value = color; break;
+            case "tertiaryContainer": tertiaryContainer.Value = color; break;
+            case "tertiaryFixed": tertiaryFixed.Value = color; break;
+            case "tertiaryFixedDim": tertiaryFixedDim.Value = color; break;
+            case "onTertiary": onTertiary.Value = color; break;
+            case "onTertiaryContainer": onTertiaryContainer.Value = color; break;
+            case "onTertiaryFixed": onTertiaryFixed.Value = color; break;
+            case "onTertiaryFixedVariant": onTertiaryFixedVariant.Value = color; break;
+            case "surface": surface.Value = color; break;
+            case "surfaceVariant": surfaceVariant.Value = color; break;
+            case "inverseSurface": inverseSurface.Value = color; break;
+            case "inverseOnSurface": inverseOnSurface.Value = color; break;
+            case "surfaceDim": surfaceDim.Value = color; break;
+            case "surfaceBright": surfaceBright.Value = color; break;
+            case "surfaceContainerLowest": surfaceContainerLowest.Value = color; break;
+            case "surfaceContainerLow": surfaceContainerLow.Value = color; break;
+            case "surfaceContainer": surfaceContainer.Value = color; break;
+            case "surfaceContainerHigh": surfaceContainerHigh.Value = color; break;
+            case "surfaceContainerHighest": surfaceContainerHighest.Value = color; break;
+            case "onSurface": onSurface.Value = color; break;
+            case "onSurfaceVariant": onSurfaceVariant.Value = color; break;
+            default: break;
+        }
+    }
+
     public void ExchangeColors(ExchangeColorTarget target) {
         switch (target) {
             case ExchangeColorTarget.Primary_Secondary:

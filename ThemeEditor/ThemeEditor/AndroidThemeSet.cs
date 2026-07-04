@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Text;
 using Windows.Storage;
 using static System.Windows.Forms.DataFormats;
@@ -99,25 +97,28 @@ public class AndroidContrastColorTheme {
 
     /// <summary>
     /// Regenerates every Medium/High role from the (possibly edited) Normal theme
-    /// by re-applying the original imported theme's Normal->Medium / Normal->High
-    /// color difference. Roles absent or empty in the original Medium/High palette
-    /// are left untouched.
+    /// purely from the baked-in standard Material tone table (see
+    /// <see cref="StandardTones"/>): each role's Normal color keeps its hue &amp;
+    /// chroma and has its lightness (L* == HCT tone) shifted by the standard
+    /// Normal->Medium / Normal->High tone delta for that role and mode. This does
+    /// not read the imported Medium/High palette, so it is stable across
+    /// edit -> save -> reload round-trips. Roles not in the standard table, or with
+    /// an empty Normal color, are left untouched.
     /// </summary>
-    public void GenerateContrastFromNormal() {
-        GenerateContrast(Colors.Medium, MediumTheme);
-        GenerateContrast(Colors.High, HighTheme);
-    }
-
-    private void GenerateContrast(List<NamedColor> originalTarget, AndroidColorTheme targetTheme) {
+    public void GenerateContrastFromNormal(DayNightMode mode) {
         foreach (var origNormal in Colors.Normal) {
             if (origNormal.IsEmpty) continue;
-            var origTarget = originalTarget.FirstOrDefault(it => it.Name == origNormal.Name);
-            if (origTarget == null || origTarget.IsEmpty) continue;
-            var currentNormal = NormalTheme.GetColorByName(origNormal.Name);
+            var role = origNormal.Name;
+            var tones = StandardTones.Get(role, mode);
+            if (tones == null) continue;
+            var currentNormal = NormalTheme.GetColorByName(role);
             if (currentNormal == null || currentNormal.IsEmpty) continue;
 
-            var generated = ColorSpace.Transfer(currentNormal.Color, origNormal.Color, origTarget.Color);
-            targetTheme.SetColorByName(origNormal.Name, new NamedColor(origNormal.Name, generated));
+            var t = tones.Value;
+            var medium = ColorSpace.ShiftLightness(currentNormal.Color, t.Medium - t.Normal);
+            var high = ColorSpace.ShiftLightness(currentNormal.Color, t.High - t.Normal);
+            MediumTheme.SetColorByName(role, new NamedColor(role, medium));
+            HighTheme.SetColorByName(role, new NamedColor(role, high));
         }
     }
 }
@@ -150,8 +151,8 @@ public class AndroidColorThemeSet {
     }
 
     public void GenerateContrastFromNormal() {
-        Light.GenerateContrastFromNormal();
-        Dark.GenerateContrastFromNormal();
+        Light.GenerateContrastFromNormal(DayNightMode.Light);
+        Dark.GenerateContrastFromNormal(DayNightMode.Dark);
     }
 
     public class ThemeBuilder {

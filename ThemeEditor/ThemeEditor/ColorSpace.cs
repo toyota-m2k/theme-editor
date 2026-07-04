@@ -69,6 +69,18 @@ public static class ColorSpace {
         return LabToRgb(new Lab(l, a, b));
     }
 
+    /// <summary>
+    /// Returns <paramref name="color"/> with its CIELAB lightness (L*) shifted by
+    /// <paramref name="deltaL"/>, keeping a*/b* (hue &amp; colorfulness). L* is clamped
+    /// to [0,100] and RGB channels are clamped on the way back. Since HCT tone == L*,
+    /// this applies a Material-style contrast tone shift while preserving the color.
+    /// </summary>
+    public static Color ShiftLightness(Color color, double deltaL) {
+        var lab = RgbToLab(color);
+        double l = Math.Clamp(lab.L + deltaL, 0.0, 100.0);
+        return LabToRgb(new Lab(l, lab.A, lab.B));
+    }
+
     private static double GammaExpand(double c) {
         return c <= 0.04045 ? c / 12.92 : Math.Pow((c + 0.055) / 1.055, 2.4);
     }

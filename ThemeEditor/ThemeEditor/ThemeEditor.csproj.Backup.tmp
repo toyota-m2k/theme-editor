@@ -16,6 +16,9 @@
     <None Remove="ColorCellView.xaml" />
     <None Remove="EditorPage.xaml" />
   </ItemGroup>
+  <ItemGroup>
+    <Page Remove="StockedThemeSampleView.xaml" />
+  </ItemGroup>
 
   <ItemGroup>
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -48,13 +51,15 @@
     <PackageReference Include="ReactiveProperty" Version="9.7.0" />
   </ItemGroup>
   <ItemGroup>
+    <None Update="StockedThemeSampleView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
     <Page Update="ColorWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Update="StockedColorCellView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Update="StockedThemeSampleView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

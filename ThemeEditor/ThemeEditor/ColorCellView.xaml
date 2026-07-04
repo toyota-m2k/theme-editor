@@ -10,22 +10,28 @@
     HorizontalAlignment="Stretch"
     >
 
-    <Grid Background="{x:Bind ColorPair.Value.Background.Value.Brush, Mode=OneWay}" HorizontalAlignment="Stretch" Padding="8">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
-        <StackPanel Grid.Column="0" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Stretch">
-            <TextBlock FontSize="18" Text="{x:Bind ColorPair.Value.Background.Value.Name}" Foreground="{x:Bind ColorPair.Value.Foreground.Value.Brush, Mode=OneWay}" HorizontalAlignment="Left" Margin="20,0,0,2"/>
-            <TextBlock FontSize="14" Text="{x:Bind ColorPair.Value.Foreground.Value.Name}" Foreground="{x:Bind ColorPair.Value.Foreground.Value.Brush, Mode=OneWay}" HorizontalAlignment="Right" Margin="0,2,20,0"/>
-        </StackPanel>
-        <Button Grid.Column="1" VerticalAlignment="Center" Background="{x:Bind ColorPair.Value.Foreground.Value.Brush, Mode=OneWay}" Foreground="{x:Bind ColorPair.Value.Background.Value.Brush, Mode=OneWay}" Command="{x:Bind CommandBg}">BG</Button>
-        <Button Grid.Column="2" VerticalAlignment="Center" Background="{x:Bind ColorPair.Value.Foreground.Value.Brush, Mode=OneWay}" Foreground="{x:Bind ColorPair.Value.Background.Value.Brush, Mode=OneWay}" Command="{x:Bind CommandFg}">FG</Button>
-        <ContentDialog x:Name="colorPickerDialog" Title="Select Color" PrimaryButtonText="OK" SecondaryButtonText="Cancel" PrimaryButtonCommand="{x:Bind ColorChanged}">
-            <StackPanel>
-                <ColorPicker x:Name="colorPicker" />
-            </StackPanel>
-        </ContentDialog>
+    <Grid Background="{x:Bind ColorPair.Value.Background.Value.Brush, Mode=OneWay}" HorizontalAlignment="Stretch" Padding="15,0,15,0">
+        <Grid VerticalAlignment="Center" ColumnSpacing="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" Grid.Column="0" FontSize="18" FontWeight="Bold" Text="{x:Bind ColorPair.Value.Background.Value.Name}" Foreground="{x:Bind ColorPair.Value.Foreground.Value.Brush, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0"/>
+            <TextBlock Grid.Row="0" Grid.Column="1" FontSize="12" FontWeight="Bold" Text="{x:Bind ColorPair.Value.Background.Value.ColorCode}" Foreground="{x:Bind ColorPair.Value.Foreground.Value.Brush, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0"/>
+            <TextBlock Grid.Row="1" Grid.Column="0" FontSize="12" FontWeight="Bold" Text="{x:Bind ColorPair.Value.Foreground.Value.Name}" Foreground="{x:Bind ColorPair.Value.Foreground.Value.Brush, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0"/>
+            <TextBlock Grid.Row="1" Grid.Column="1" FontSize="12" FontWeight="Bold" Text="{x:Bind ColorPair.Value.Foreground.Value.ColorCode}" Foreground="{x:Bind ColorPair.Value.Foreground.Value.Brush, Mode=OneWay}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0,0,0,0"/>
+            <Button Grid.Row="0" Grid.Column="2" VerticalAlignment="Center" Background="{x:Bind ColorPair.Value.Foreground.Value.Brush, Mode=OneWay}" Foreground="{x:Bind ColorPair.Value.Background.Value.Brush, Mode=OneWay}" FontSize="12" Command="{x:Bind CommandBg}">BG</Button>
+            <Button Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" Background="{x:Bind ColorPair.Value.Foreground.Value.Brush, Mode=OneWay}" Foreground="{x:Bind ColorPair.Value.Background.Value.Brush, Mode=OneWay}" FontSize="12" Command="{x:Bind CommandFg}">FG</Button>
+            <ContentDialog x:Name="colorPickerDialog" Title="Select Color" PrimaryButtonText="OK" SecondaryButtonText="Cancel" PrimaryButtonCommand="{x:Bind ColorChanged}">
+                <StackPanel>
+                    <ColorPicker x:Name="colorPicker" />
+                </StackPanel>
+            </ContentDialog>
+        </Grid>
     </Grid>
 </UserControl>

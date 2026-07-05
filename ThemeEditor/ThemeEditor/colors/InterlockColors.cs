@@ -1,12 +1,13 @@
 ﻿using Reactive.Bindings;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ThemeEditor.parser;
 
-namespace ThemeEditor;
+namespace ThemeEditor.colors;
 
+/**
+ * InterlockColors は、Light/Dark モードのカラーを相互に連動させるためのクラスである。
+ * 例えば、Light モードの primaryContainer の色を変更した場合、Dark モードの primary の色も変更される。
+ * 逆に、Dark モードの primary の色を変更した場合、Light モードの primaryContainer の色も変更される。
+ */
 internal class InterlockColors {
     AndroidColorTheme Light;
     AndroidColorTheme Dark;

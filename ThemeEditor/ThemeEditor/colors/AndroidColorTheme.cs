@@ -6,32 +6,10 @@ using System.Linq;
 using System.Reactive.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static ThemeEditor.AndroidColorTheme;
+using ThemeEditor.parser;
+using static ThemeEditor.colors.AndroidColorTheme;
 
-namespace ThemeEditor;
-
-public interface ICommonTheme {
-    ColorPair Base { get; }
-    ColorPair Container { get; }
-    ColorPair Fixed { get; }
-    ColorPair FixedDim { get; }
-}
-public interface IPrimaryTheme : ICommonTheme {
-    ColorPair Inverse { get; }
-}
-
-public class ColorPair {
-    public ReactiveProperty<NamedColor> Background { get; }
-    public ReactiveProperty<NamedColor> Foreground { get; }
-    public ColorPair(ReactiveProperty<NamedColor> background, ReactiveProperty<NamedColor> foreground) {
-        Background = background;
-        Foreground = foreground;
-    }
-
-    public bool IsEmpty => Background.Value.IsEmpty && Foreground.Value.IsEmpty;
-    public ReadOnlyReactiveProperty<bool> IsEmptyObservable => Background.CombineLatest(Foreground, (b, f) => b.IsEmpty && f.IsEmpty).ToReadOnlyReactiveProperty();
-}
-
+namespace ThemeEditor.colors;
 
 
 public class AndroidColorTheme {

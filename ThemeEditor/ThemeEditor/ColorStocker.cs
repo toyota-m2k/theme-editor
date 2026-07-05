@@ -8,6 +8,8 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using ThemeEditor.colors;
+using ThemeEditor.parser;
 using Windows.Storage;
 
 namespace ThemeEditor;

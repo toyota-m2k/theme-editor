@@ -2,6 +2,8 @@
 using System;
 using System.Linq;
 using System.Reactive.Linq;
+using ThemeEditor.colors;
+using ThemeEditor.parser;
 
 namespace ThemeEditor;
 

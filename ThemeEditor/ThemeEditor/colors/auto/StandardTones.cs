@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using ThemeEditor.colors;
 
-namespace ThemeEditor;
+namespace ThemeEditor.colors.auto;
 
 /// <summary>
 /// Standard Material 3 tone (HCT tone == CIELAB L*) assignments per role, per

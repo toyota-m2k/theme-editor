@@ -1,6 +1,7 @@
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using System;
+using ThemeEditor.colors;
 
 namespace ThemeEditor {
     public sealed partial class ColorWindow : Window {

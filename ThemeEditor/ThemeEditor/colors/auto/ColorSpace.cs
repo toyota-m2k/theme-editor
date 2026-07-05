@@ -1,7 +1,7 @@
 using System;
 using System.Drawing;
 
-namespace ThemeEditor;
+namespace ThemeEditor.colors.auto;
 
 /// <summary>
 /// sRGB <-> CIELAB (D65) conversion and per-role contrast "delta transfer".

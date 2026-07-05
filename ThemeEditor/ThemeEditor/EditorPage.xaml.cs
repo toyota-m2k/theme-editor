@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using ThemeEditor.colors;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 

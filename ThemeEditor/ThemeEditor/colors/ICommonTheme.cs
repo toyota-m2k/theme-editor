@@ -15,7 +15,7 @@ public interface ICommonTheme {
 
 /**
  * primaryInverse という名前から、Primary のカラーセットに含めておくが、
- * これは、inverseSurface上に表示する前景色（onInverseSurface のアクセント色）である。
+ * これは、inverseSurface上に表示する前景色（inverseOnSurface のアクセント色）である。
  */
 public interface IPrimaryTheme : ICommonTheme {
     ColorPair Inverse { get; }

@@ -86,7 +86,7 @@ public class AndroidColorTheme {
             Container = new ColorPair(p.primaryContainer, p.onPrimaryContainer);
             Fixed = new ColorPair(p.primaryFixed, p.onPrimaryFixed);
             FixedDim = new ColorPair(p.primaryFixedDim, p.onPrimaryFixedVariant);
-            Inverse = new ColorPair(p.inversePrimary, p.onPrimaryContainer);
+            Inverse = new ColorPair(p.inverseSurface, p.inversePrimary);
         }
         public bool IsEmpty => Base.IsEmpty || Container.IsEmpty || Fixed.IsEmpty || FixedDim.IsEmpty || Inverse.IsEmpty;
         public ReadOnlyReactiveProperty<bool> IsEmptyObservable => Base.IsEmptyObservable.CombineLatest(Container.IsEmptyObservable, Fixed.IsEmptyObservable, FixedDim.IsEmptyObservable, Inverse.IsEmptyObservable, (b, c, f, fd, i) => b && c && f && fd && i).ToReadOnlyReactiveProperty();

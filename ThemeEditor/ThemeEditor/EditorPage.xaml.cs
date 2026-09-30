@@ -19,8 +19,9 @@ namespace ThemeEditor {
         EditorViewModel ViewModel = new EditorViewModel();
         private string? baseName = null;
 
-        private async Task<StorageFolder?> GetSubFolder(StorageFolder folder, string name) {
+        private async Task<StorageFolder?> GetSubFolder(StorageFolder? folder, string name) {
             try {
+                if (folder == null) return null;
                 var subfolder = await folder.GetFolderAsync(name);
                 return subfolder;
             }
@@ -29,8 +30,9 @@ namespace ThemeEditor {
                 return null;
             }
         }
-        private async Task<StorageFile?> GetFile(StorageFolder folder, string name) {
+        private async Task<StorageFile?> GetFile(StorageFolder? folder, string name) {
             try {
+                if (folder == null) return null;
                 var file = await folder.GetFileAsync(name);
                 return file;
             }
@@ -42,13 +44,23 @@ namespace ThemeEditor {
         private async Task<StorageFile?> GetNightFile(StorageFile lightFile) {
             try {
                 var folder = await lightFile.GetParentAsync();
-                if (folder.Name == "night") {
+                if (folder.Name == "night" || folder.Name == "values-night") {
                     return null;
                 }
-                var subFolder = await GetSubFolder(folder, "night");
-                if (subFolder != null) {
-                    var file = await GetFile(subFolder, lightFile.Name);
-                    return file;
+
+                StorageFolder? nightFolder = null;
+                if (folder.Name == "values") {
+                    // resフォルダ形式
+                    var parent = await folder.GetParentAsync();
+                    nightFolder = await GetSubFolder(parent, "values-night");
+                }
+                else {
+                    // テーマビルダーの出力形式
+                    nightFolder = await GetSubFolder(folder, "night");
+                }
+
+                if (nightFolder != null) {
+                    return await GetFile(nightFolder, lightFile.Name);
                 }
                 return null;
             }
@@ -57,6 +69,23 @@ namespace ThemeEditor {
                 return null;
             }
         }
+
+        private async Task<StorageFile?> GetLightFile(StorageFile nightFile) {
+            try {
+                var folder = await nightFile.GetParentAsync();
+                if (folder.Name == "values-night") {
+                    var parent = await folder.GetParentAsync();
+                    var lightFolder = await GetSubFolder(parent, "values");
+                    return await GetFile(lightFolder, nightFile.Name);
+                }
+                return null;
+            }
+            catch (Exception e) {
+                //Console.WriteLine(e);
+                return null;
+            }
+        }
+
 
         public EditorPage() {
             this.InitializeComponent();
@@ -76,6 +105,10 @@ namespace ThemeEditor {
                             var nightFile = await GetNightFile(file);
                             if (nightFile != null) {
                                 builder.AppendDark(nightFile);
+                            }
+                            var lightFile = await GetLightFile(file);
+                            if (lightFile != null) {
+                                builder.AppendLight(lightFile);
                             }
                         }
                         ViewModel.ThemeSet.Value = builder.Build();

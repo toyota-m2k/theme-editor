@@ -127,11 +127,26 @@ namespace ThemeEditor {
                     var hwnd = WinRT.Interop.WindowNative.GetWindowHandle(window);
                     var picker = new Windows.Storage.Pickers.FolderPicker();
                     WinRT.Interop.InitializeWithWindow.Initialize(picker, hwnd);
-                    var folder = await picker.PickSingleFolderAsync();
-                    if (folder != null) {
+                    var lightFolder = await picker.PickSingleFolderAsync();
+                    if (lightFolder != null) {
                         try {
-                            var filename = (baseName == "material") ? "colors.xml" : $"colors_{baseName}.xml";
-                            var fileLight = await folder.CreateFileAsync(filename, CreationCollisionOption.ReplaceExisting);
+                            StorageFolder nightFolder;
+                            if (lightFolder.Path.EndsWith("\\res\\values")) {
+                                var resFolder = await lightFolder.GetParentAsync();
+                                nightFolder = await resFolder.CreateFolderAsync("values-night", CreationCollisionOption.OpenIfExists);
+                            } else {
+                                nightFolder = await lightFolder.CreateFolderAsync("night", CreationCollisionOption.OpenIfExists);
+                            }
+
+                            var filename = string.IsNullOrEmpty(baseName) ? "colors.xml" : $"colors_{baseName}.xml";
+                            if (IsExistFile(lightFolder,filename) || IsExistFile(nightFolder,filename)) {
+                                if (!await ShowYesNoMessageAsync("Save File", "既存ファイルを上書きしますか？")) {
+                                    return;
+                                }
+                            }
+
+
+                            var fileLight = await lightFolder.CreateFileAsync(filename, CreationCollisionOption.ReplaceExisting);
                             var xml = ViewModel.ThemeSet.Value.Light.ToXml(baseName);
                             using (var streamLight = await fileLight.OpenStreamForWriteAsync())
                             using (var writerLight = new StreamWriter(streamLight))
@@ -139,8 +154,7 @@ namespace ThemeEditor {
                                 await writerLight.WriteAsync(xml);
                             }
 
-                            folder = await folder.CreateFolderAsync("night", CreationCollisionOption.OpenIfExists);
-                            var fileDark = await folder.CreateFileAsync(filename, CreationCollisionOption.ReplaceExisting);
+                            var fileDark = await nightFolder.CreateFileAsync(filename, CreationCollisionOption.ReplaceExisting);
                             var xmlDark = ViewModel.ThemeSet.Value.Dark.ToXml(baseName);
                             using (var streamDark = await fileDark.OpenStreamForWriteAsync())
                             using (var writerDark = new StreamWriter(streamDark))
@@ -217,6 +231,11 @@ namespace ThemeEditor {
             }
         }
 
+        private bool IsExistFile(StorageFolder folder, string name) {
+            var path = Path.Combine(folder.Path, name);
+            return Path.Exists(path);
+        }
+
         public async Task<ExchangeColorTarget?> ExchangeColorDialog() {
             var radioButtons = new RadioButtons {
                 SelectedIndex = 0,
@@ -259,5 +278,18 @@ namespace ThemeEditor {
 
             await dialog.ShowAsync();
         }
+
+        private async Task<bool> ShowYesNoMessageAsync(string title, string message) {
+            var dialog = new ContentDialog {
+                Title = title,
+                Content = message,
+                PrimaryButtonText = "Yes",
+                SecondaryButtonText = "No",
+                DefaultButton = ContentDialogButton.Primary,
+                XamlRoot = this.XamlRoot
+            };
+            return await dialog.ShowAsync() == ContentDialogResult.Primary;
+        }
+
     }
 }
